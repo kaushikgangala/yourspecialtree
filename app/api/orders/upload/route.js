@@ -3,10 +3,10 @@ import { getSignedUrl } from "@aws-sdk/s3-request-presigner"; // Correct import
 import { v4 as uuidv4 } from "uuid";
 
 const s3 = new S3Client({
-  region: process.env.AWS_S3_REGION,
+  region: process.env.CLOUD_AWS_S3_REGION,
   credentials: {
-    accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+    accessKeyId: process.env.CLOUD_AWS_ACCESS_KEY_ID,
+    secretAccessKey: process.env.CLOUD_AWS_SECRET_ACCESS_KEY,
   },
 });
 
@@ -24,7 +24,7 @@ export async function POST(req) {
     const uniqueFileName = `${folder}/${uuidv4()}-${fileName}`;
 
     const command = new PutObjectCommand({
-      Bucket: process.env.AWS_S3_BUCKET_NAME,
+      Bucket: process.env.CLOUD_AWS_S3_BUCKET_NAME,
       Key: uniqueFileName,
       ContentType: "application/octet-stream", // Adjust content type if needed
     });
@@ -35,7 +35,7 @@ export async function POST(req) {
     return new Response(
       JSON.stringify({
         uploadUrl,
-        fileUrl: `https://${process.env.AWS_S3_BUCKET_NAME}.s3.${process.env.AWS_S3_REGION}.amazonaws.com/${uniqueFileName}`,
+        fileUrl: `https://${process.env.CLOUD_AWS_S3_BUCKET_NAME}.s3.${process.env.CLOUD_AWS_S3_REGION}.amazonaws.com/${uniqueFileName}`,
       }),
       { status: 200, headers: { "Content-Type": "application/json" } }
     );

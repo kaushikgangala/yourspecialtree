@@ -10,7 +10,7 @@ export async function DELETE(req) {
     const { fileName } = await req.json();
 
     const params = {
-      Bucket: process.env.AWS_S3_BUCKET_NAME, // Use your S3 bucket name
+      Bucket: process.env.CLOUD_AWS_S3_BUCKET_NAME, // Use your S3 bucket name
       Key: `orders/${fileName}`, // Set the correct path where images are stored in S3
     };
 
