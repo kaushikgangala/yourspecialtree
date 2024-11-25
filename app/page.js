@@ -12,7 +12,6 @@ import Footer from "@/components/Footer";
 export default function Home() {
   const sectionRef = useRef(null);
   const handleScrollToSection = () => {
-    console.log("handlescroll");
     // Scroll to the section when the button is clicked
     sectionRef.current?.scrollIntoView({
       behavior: "smooth", // Smooth scroll effect

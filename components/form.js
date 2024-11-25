@@ -1,10 +1,12 @@
 "use client";
 
+import Image from "next/image";
+
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import PayPalButton from "./PaypalButton";
 
-export default function OrderForm({handleScrollToSection}) {
+export default function OrderForm({ handleScrollToSection }) {
   const router = useRouter();
   const [step, setStep] = useState(1);
   const [customer, setCustomer] = useState({
@@ -17,7 +19,9 @@ export default function OrderForm({handleScrollToSection}) {
     state: "",
     country: "",
   });
-  const [products, setProducts] = useState([{ name: "Christmas Tree Skirt", price: 80 }]);
+  const [products, setProducts] = useState([
+    { name: "Christmas Tree Skirt", price: 80 },
+  ]);
   const [images, setImages] = useState([]);
   const [uploading, setUploading] = useState(false);
   const [orderSuccess, setOrderSuccess] = useState(false);
@@ -111,10 +115,9 @@ export default function OrderForm({handleScrollToSection}) {
       alert("Failed to place order. Please try again.");
     }
 
-    
     // Push to the Thank You page with query parameters
-    localStorage.setItem('customer', JSON.stringify(customer))
-    localStorage.setItem('products', JSON.stringify(products))
+    localStorage.setItem("customer", JSON.stringify(customer));
+    localStorage.setItem("products", JSON.stringify(products));
     router.push(`/thankyou`);
   };
 
@@ -145,10 +148,9 @@ export default function OrderForm({handleScrollToSection}) {
     }
   };
 
-
   // meta events
-  async function metaAddToCart(){
-    await fetch("meta/matc", {
+  async function metaAddToCart() {
+    await fetch("/api/meta/atc", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -162,7 +164,7 @@ export default function OrderForm({handleScrollToSection}) {
     });
   }
 
-  async function metaCheckout(){
+  async function metaCheckout() {
     await fetch("meta/checkout", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -171,203 +173,274 @@ export default function OrderForm({handleScrollToSection}) {
         phone: customer.phone,
         fbc: sessionStorage.getItem("_fbc"),
         fbp: sessionStorage.getItem("_fbp"),
-        totalAmount: products.reduce((acc, curr) => acc + curr.price, 0).toFixed(2),
+        totalAmount: products
+          .reduce((acc, curr) => acc + curr.price, 0)
+          .toFixed(2),
         qty: products.length,
       }),
     });
   }
 
+
   return (
     <div className="max-w-4xl mx-auto">
-  <h1 className="text-3xl font-extrabold mb-6 text-center text-red-600">
-  Claim Your Holiday Magic Now
-  </h1>
+      <h1 className="text-3xl font-extrabold mb-6 text-center text-red-600">
+        Claim Your Holiday Magic Now
+      </h1>
 
-  {orderSuccess ? (
-    <p className="text-green-600 text-lg text-center">Order placed successfully!</p>
-  ) : (
-    <form onSubmit={handleSubmit} className="space-y-6">
-      {/* Step 1: Customer Details */}
-      {step === 1 && (
-        <fieldset className="p-6 border-2 border-gray-300 rounded-lg shadow-lg bg-white">
-          <legend className="text-2xl font-semibold text-center text-green-600 mb-4">Shipping Details</legend>
-          {Object.keys(customer).map((field) => (
-            <div key={field} className="mb-4">
-              <label
-                htmlFor={field}
-                className="block text-sm font-medium text-gray-700 mb-2"
-              >
-                {field.charAt(0).toUpperCase() + field.slice(1)}
-              </label>
-              <input
-                type="text"
-                id={field}
-                name={field}
-                value={customer[field]}
-                onChange={handleCustomerChange}
-                required
-                className="w-full p-3 border border-gray-300 rounded-md"
-              />
-            </div>
-          ))}
-          <button
-          id="form-btn-1"
-            type="button"
-            disabled={
-              !customer.name ||
-              !customer.email ||
-              !customer.phone ||
-              !customer.street ||
-              !customer.city ||
-              !customer.pin ||
-              !customer.state ||
-              !customer.country
-            }
-            onClick={() => {setStep(2); handleScrollToSection(); metaAddToCart()}}
-            className="w-full py-3 bg-red-600 text-white rounded-md hover:bg-red-700 disabled:bg-gray-400"
-          >
-            Next: Upload Images
-          </button>
-        </fieldset>
-      )}
-
-      {/* Step 2: Upload Images */}
-      {step === 2 && (
-        <fieldset className="p-6 border-2 border-gray-300 rounded-lg shadow-lg bg-white">
-          <p className="text-lg text-gray-700 font-medium mt-2">
-  Upload up to 15 images
-</p>
-
-          <legend className="text-2xl font-semibold text-center text-green-600 mb-4">Upload Images</legend>
-          <input
-            type="file"
-            multiple
-            disabled={images.length >= 10}
-            accept="image/*"
-            onChange={handleUpload}
-            className="mb-4 p-2 bg-white border border-gray-300 rounded-md"
-          />
-          {uploading && <p className="text-blue-600">Uploading images... Please wait</p>}
-          {images.length > 0 && (
-            <div className="mb-4">
-              <ul className="flex flex-wrap gap-4">
-                {images.map((url, index) => (
-                  <li key={index} className="relative">
-                    <Image
-                      src={url}
-                      alt={`Uploaded Image ${index}`}
-                      className="w-24 h-24 object-cover rounded-md"
-                      width={10}
-                      height={10}
-                    />
-                    <button
-  type="button"
-  onClick={() => handleRemoveImage(index)}
-  className="absolute top-0 right-0 bg-red-600 text-white rounded-full w-6 h-6 flex items-center justify-center"
->
-  X
-</button>
-
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )}
-          {images.length > 15 && (
-            <p className="text-red-600 text-sm">You have exceeded the limit of 10 images.</p>
-          )}
-          <button
-            type="button"
-            onClick={() => {setStep(1); handleScrollToSection()}}
-            className="w-full py-3 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300 mb-2"
-          >
-            Back: Customer Details
-          </button>
-          <button
-          id="form-btn-2"
-            type="button"
-            disabled={images.length === 0 || images.length > 15}
-            onClick={() => {setStep(3); handleScrollToSection()}}
-            className="w-full py-3 bg-red-600 text-white rounded-md hover:bg-red-700 disabled:bg-gray-400"
-          >
-            Next: Add Products
-          </button>
-        </fieldset>
-      )}
-
-      {/* Step 3: Products */}
-      {step === 3 && (
-  <fieldset className="p-6 border-2 border-gray-300 rounded-lg shadow-lg bg-white">
-    <legend className="text-2xl font-semibold text-center text-green-600 mb-4">Confirm Order</legend>
-
-    {/* Order Bumps with Animated Arrow */}
-    <div className="space-y-6">
-      {[{ title: "Customized Christmas Stocking", price: 29.99, description: "Add a personalized Christmas stocking to your order.", image: "https://printify.com/cdn-cgi/image/width=520,quality=100,format=avif/https://images.printify.com/api/catalog/66d80f895d7e08d6ce09e147" },
-        { title: "Customized Wrapping Paper", price: 9.99, description: "Get festive with customized wrapping paper for all your gifts.", image: "https://printify.com/cdn-cgi/image/width=520,quality=100,format=avif/https://images.printify.com/api/catalog/66d596c9f863229a4c0c5e46" }]
-        .map((orderBump, index) => (
-          <div key={index} className="relative flex items-center space-x-4 p-4 border border-gray-300 rounded-lg shadow-md bg-red-50 hover:bg-red-100 transition">
-            {/* Animated Arrow */}
-            <div className="absolute left-0 top-1/2 transform -translate-y-1/2">
-              <div className="animate-ping bg-yellow-500 rounded-full w-4 h-4"></div>
-            </div>
-
-            <input
-              type="checkbox"
-              id={`order-bump-${index}`}
-              checked={products.some((product) => product.name === orderBump.title)}
-              onChange={(e) => {
-                if (e.target.checked) {
-                  setProducts((prev) => [...prev, { name: orderBump.title, price: orderBump.price }]);
-                } else {
-                  setProducts((prev) => prev.filter((product) => product.name !== orderBump.title));
+      {orderSuccess ? (
+        <p className="text-green-600 text-lg text-center">
+          Order placed successfully!
+        </p>
+      ) : (
+        <form onSubmit={handleSubmit} className="space-y-6">
+          {/* Step 1: Customer Details */}
+          {step === 1 && (
+            <fieldset className="p-6 border-2 border-gray-300 rounded-lg shadow-lg bg-white">
+              <legend className="text-2xl font-semibold text-center text-green-600 mb-4">
+                Shipping Details
+              </legend>
+              {Object.keys(customer).map((field) => (
+                <div key={field} className="mb-4">
+                  <label
+                    htmlFor={field}
+                    className="block text-sm font-medium text-gray-700 mb-2"
+                  >
+                    {field.charAt(0).toUpperCase() + field.slice(1)}
+                  </label>
+                  <input
+                    type="text"
+                    id={field}
+                    name={field}
+                    value={customer[field]}
+                    onChange={handleCustomerChange}
+                    required
+                    className="w-full p-3 border border-gray-300 rounded-md"
+                  />
+                </div>
+              ))}
+              <button
+                id="form-btn-1"
+                type="button"
+                disabled={
+                  !customer.name ||
+                  !customer.email ||
+                  !customer.phone ||
+                  !customer.street ||
+                  !customer.city ||
+                  !customer.pin ||
+                  !customer.state ||
+                  !customer.country
                 }
-              }}
-              className="h-5 w-5 border-gray-300 rounded"
-            />
-            <div className="flex items-center space-x-4">
-              <Image src={orderBump.image} alt={orderBump.title} width={10} height={10} className="w-16 h-16 object-cover rounded-md" />
-              <div className="text-sm">
-                <h4 className="font-semibold">{orderBump.title} - ${orderBump.price}</h4>
-                <p className="text-gray-600">{orderBump.description}</p>
+                onClick={() => {
+                  setStep(2);
+                  handleScrollToSection();
+                  metaAddToCart();
+                }}
+                className="w-full py-3 bg-red-600 text-white rounded-md hover:bg-red-700 disabled:bg-gray-400"
+              >
+                Next: Upload Images
+              </button>
+            </fieldset>
+          )}
+
+          {/* Step 2: Upload Images */}
+          {step === 2 && (
+            <fieldset className="p-6 border-2 border-gray-300 rounded-lg shadow-lg bg-white">
+              <p className="text-lg text-gray-700 font-medium mt-2">
+                Upload up to 15 images
+              </p>
+
+              <legend className="text-2xl font-semibold text-center text-green-600 mb-4">
+                Upload Images
+              </legend>
+              <input
+                type="file"
+                multiple
+                disabled={images.length >= 15}
+                accept="image/*"
+                onChange={handleUpload}
+                className="mb-4 p-2 bg-white border border-gray-300 rounded-md"
+              />
+              {uploading && (
+                <p className="text-blue-600">Uploading images... Please wait</p>
+              )}
+              {images.length > 0 && (
+                <div className="mb-4">
+                  <ul className="flex flex-wrap gap-4">
+                    {images.map((url, index) => { 
+                      return (
+                      <li key={index} className="relative">
+                        <img
+                          src={url}
+                          alt={`Uploaded Image ${index}`}
+                          className="w-24 h-24 object-cover rounded-md"
+                          width={400}
+                          height={400}
+                        />
+                        <button
+                          type="button"
+                          onClick={() => handleRemoveImage(index)}
+                          className="absolute top-0 right-0 bg-red-600 text-white rounded-full w-6 h-6 flex items-center justify-center"
+                        >
+                          X
+                        </button>
+                      </li>
+                    )})}
+                  </ul>
+                </div>
+              )}
+              {images.length > 15 && (
+                <p className="text-red-600 text-sm">
+                  You have exceeded the limit of 15 images.
+                </p>
+              )}
+              <button
+                type="button"
+                onClick={() => {
+                  setStep(1);
+                  handleScrollToSection();
+                }}
+                className="w-full py-3 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300 mb-2"
+              >
+                Back: Customer Details
+              </button>
+              <button
+                id="form-btn-2"
+                type="button"
+                disabled={images.length === 0 || images.length > 15}
+                onClick={() => {
+                  setStep(3);
+                  handleScrollToSection();
+                }}
+                className="w-full py-3 bg-red-600 text-white rounded-md hover:bg-red-700 disabled:bg-gray-400"
+              >
+                Next: Add Products
+              </button>
+            </fieldset>
+          )}
+
+          {/* Step 3: Products */}
+          {step === 3 && (
+            <fieldset className="p-6 border-2 border-gray-300 rounded-lg shadow-lg bg-white">
+              <legend className="text-2xl font-semibold text-center text-green-600 mb-4">
+                Confirm Order
+              </legend>
+
+              {/* Order Bumps with Animated Arrow */}
+              <div className="space-y-6">
+                {[
+                  {
+                    title: "Customized Christmas Stocking",
+                    price: 29.99,
+                    description:
+                      "Add a personalized Christmas stocking to your order.",
+                    image:
+                      "https://printify.com/cdn-cgi/image/width=520,quality=100,format=avif/https://images.printify.com/api/catalog/66d80f895d7e08d6ce09e147",
+                  },
+                  {
+                    title: "Customized Wrapping Paper",
+                    price: 9.99,
+                    description:
+                      "Get festive with customized wrapping paper for all your gifts.",
+                    image:
+                      "https://printify.com/cdn-cgi/image/width=520,quality=100,format=avif/https://images.printify.com/api/catalog/66d596c9f863229a4c0c5e46",
+                  },
+                ].map((orderBump, index) => (
+                  <div
+                    key={index}
+                    className="relative flex items-center space-x-4 p-4 border border-gray-300 rounded-lg shadow-md bg-red-50 hover:bg-red-100 transition"
+                  >
+                    {/* Animated Arrow */}
+                    <div className="absolute left-0 top-1/2 transform -translate-y-1/2">
+                      <div className="animate-ping bg-yellow-500 rounded-full w-4 h-4"></div>
+                    </div>
+
+                    <input
+                      type="checkbox"
+                      id={`order-bump-${index}`}
+                      checked={products.some(
+                        (product) => product.name === orderBump.title
+                      )}
+                      onChange={(e) => {
+                        if (e.target.checked) {
+                          setProducts((prev) => [
+                            ...prev,
+                            { name: orderBump.title, price: orderBump.price },
+                          ]);
+                        } else {
+                          setProducts((prev) =>
+                            prev.filter(
+                              (product) => product.name !== orderBump.title
+                            )
+                          );
+                        }
+                      }}
+                      className="h-5 w-5 border-gray-300 rounded"
+                    />
+                    <div className="flex items-center space-x-4">
+                      <Image
+                        src={orderBump.image}
+                        alt={orderBump.title}
+                        width={400}
+                        height={400}
+                        className="w-16 h-16 object-cover rounded-md"
+                      />
+                      <div className="text-sm">
+                        <h4 className="font-semibold">
+                          {orderBump.title} - ${orderBump.price}
+                        </h4>
+                        <p className="text-gray-600">{orderBump.description}</p>
+                      </div>
+                    </div>
+                  </div>
+                ))}
               </div>
-            </div>
-          </div>
-        ))}
+
+              {/* Order Summary */}
+              <div className="mt-6 space-y-4">
+                {/* List each product */}
+                {products.map((product, index) => (
+                  <div key={index} className="flex justify-between text-lg">
+                    <span>{product.name}</span>
+                    <span>${product.price.toFixed(2)}</span>
+                  </div>
+                ))}
+
+                {/* Total Amount */}
+                <div className="flex justify-between text-xl font-bold text-green-600">
+                  <span>Total Amount:</span>
+                  <span>
+                    $
+                    {products
+                      .reduce((acc, curr) => acc + curr.price, 0)
+                      .toFixed(2)}
+                  </span>
+                </div>
+              </div>
+
+              {/* Buttons */}
+              <button
+                type="button"
+                onClick={() => {
+                  setStep(2);
+                  handleScrollToSection();
+                }}
+                className="w-full py-3 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300 mt-6 mb-2"
+              >
+                Back: Upload Images
+              </button>
+              <PayPalButton
+                amount={products
+                  .reduce((acc, curr) => acc + curr.price, 0)
+                  .toFixed(2)}
+                onFormSubmit={handleSubmit}
+                metaCheckout={metaCheckout}
+              />
+            </fieldset>
+          )}
+        </form>
+      )}
     </div>
-
-    {/* Order Summary */}
-<div className="mt-6 space-y-4">
-  {/* List each product */}
-  {products.map((product, index) => (
-    <div key={index} className="flex justify-between text-lg">
-      <span>{product.name}</span>
-      <span>${product.price.toFixed(2)}</span>
-    </div>
-  ))}
-
-  {/* Total Amount */}
-  <div className="flex justify-between text-xl font-bold text-green-600">
-    <span>Total Amount:</span>
-    <span>${products.reduce((acc, curr) => acc + curr.price, 0).toFixed(2)}</span>
-  </div>
-</div>
-
-
-    {/* Buttons */}
-    <button
-      type="button"
-      onClick={() => { setStep(2); handleScrollToSection(); }}
-      className="w-full py-3 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300 mt-6 mb-2"
-    >
-      Back: Upload Images
-    </button>
-    <PayPalButton amount={products.reduce((acc, curr) => acc + curr.price, 0).toFixed(2)} onFormSubmit={handleSubmit} metaCheckout={metaCheckout}/>
-  </fieldset>
-)}
-
-    </form>
-  )}
-</div>
-
   );
 }

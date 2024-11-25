@@ -47,7 +47,6 @@ export default function PayPalButton({email, phone, amount, onFormSubmit, metaCh
                 ], }),
               });
               const data = await res.json();
-              console.log(data)
               return data.id;
             },
             onApprove: async (data) => {
@@ -61,7 +60,6 @@ export default function PayPalButton({email, phone, amount, onFormSubmit, metaCh
               });
 
               const orderDetails = await res.json();
-              console.log("Order details:", orderDetails);
 
               
               metaCheckout();

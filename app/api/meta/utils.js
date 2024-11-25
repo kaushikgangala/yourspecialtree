@@ -28,7 +28,7 @@ export const sendEvent = async (eventName, userData, customData) => {
 
   try {
     const response = await axios.post(apiUrl, event);
-    console.log(`${eventName} event sent successfully:`, response.data);
+    // console.log(`${eventName} event sent successfully:`, response.data);
   } catch (error) {
     console.error(
       `Error sending ${eventName} event:`,

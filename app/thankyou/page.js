@@ -10,8 +10,6 @@ const ThankYouPage = () => {
   useEffect(() => {
     setCustomerData(JSON.parse(localStorage.getItem('customer')))
     setProductData(JSON.parse(localStorage.getItem('products')))
-    console.log(customerData)
-    console.log(productData)
     async function metaPurchaseEvent(){
       await fetch("meta/purchase", {
         method: "POST",

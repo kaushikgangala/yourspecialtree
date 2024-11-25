@@ -5,7 +5,6 @@ export async function POST(req) {
   try {
     const { intent, purchase_units } = await req.json();
     const accessToken = await getAccessToken();
-    console.log(intent, purchase_units, accessToken)
 
     const orderData = {
       intent: intent.toUpperCase(),
