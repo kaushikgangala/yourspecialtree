@@ -37,7 +37,7 @@ const ProductDescription = ({handleScrollToSection}) => {
             <span className="font-semibold text-gray-900">100% Polyester:</span> A durable, quick-drying fabric that ensures your skirt lasts through the seasons.
           </li>
           <li>
-            <span className="font-semibold text-gray-900">Soft and Plush Fleece Material:</span> Ultra-soft and cozy, it creates the perfect backdrop for your tree's holiday magic.
+            <span className="font-semibold text-gray-900">Soft and Plush Fleece Material:</span> Ultra-soft and cozy, it creates the perfect backdrop for your tree&apos;s holiday magic.
           </li>
           <li>
             <span className="font-semibold text-gray-900">Hemmed Edges:</span> Quality craftsmanship that guarantees long-lasting durability year after year.
@@ -54,7 +54,7 @@ const ProductDescription = ({handleScrollToSection}) => {
         <div>
           <h2 className="text-2xl font-medium text-gray-900 mt-8">Size Guide</h2>
           <p className="text-gray-700 mt-2 text-lg">
-            Diameter: ~44" (Imperial)
+            Diameter: ~44&quot; (Imperial)
           </p>
         </div>
       </div>

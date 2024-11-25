@@ -42,7 +42,7 @@ const ProductDetails = ({handleScrollToSection}) => {
 
   {/* Product Description */}
   <section className="mt-8">
-  <h2 className="text-3xl font-semibold text-gray-900 mb-6">Why You'll Love It</h2>
+  <h2 className="text-3xl font-semibold text-gray-900 mb-6">Why You&apos;ll Love It</h2>
   <ul className="list-disc list-inside space-y-4 text-gray-700 text-lg">
     <li>
       <span className="font-semibold text-gray-900">A Piece of Your Holiday Story:{" "}</span>  

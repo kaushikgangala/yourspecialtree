@@ -253,10 +253,12 @@ export default function OrderForm({handleScrollToSection}) {
               <ul className="flex flex-wrap gap-4">
                 {images.map((url, index) => (
                   <li key={index} className="relative">
-                    <img
+                    <Image
                       src={url}
                       alt={`Uploaded Image ${index}`}
                       className="w-24 h-24 object-cover rounded-md"
+                      width={10}
+                      height={10}
                     />
                     <button
   type="button"
@@ -323,7 +325,7 @@ export default function OrderForm({handleScrollToSection}) {
               className="h-5 w-5 border-gray-300 rounded"
             />
             <div className="flex items-center space-x-4">
-              <img src={orderBump.image} alt={orderBump.title} className="w-16 h-16 object-cover rounded-md" />
+              <Image src={orderBump.image} alt={orderBump.title} width={10} height={10} className="w-16 h-16 object-cover rounded-md" />
               <div className="text-sm">
                 <h4 className="font-semibold">{orderBump.title} - ${orderBump.price}</h4>
                 <p className="text-gray-600">{orderBump.description}</p>
