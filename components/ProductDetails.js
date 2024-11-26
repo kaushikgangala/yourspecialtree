@@ -120,7 +120,7 @@ const ProductDetails = ({ handleScrollToSection }) => {
             className="text-4xl font-bold"
             style={{ color: primaryFontColor }}
           >
-            $80
+            <span id="amount">$80</span>
           </span>
         </div>
 

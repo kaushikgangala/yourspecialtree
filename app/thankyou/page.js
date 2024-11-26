@@ -103,7 +103,8 @@ const ThankYouPage = () => {
                     <strong>Product:</strong> {product.name}
                   </p>
                   <p>
-                    <strong>Price:</strong> ${product.price}
+                    <strong>Price:</strong> $
+                    <span id="amount">{product.price}</span>
                   </p>
                 </div>
               ))}
