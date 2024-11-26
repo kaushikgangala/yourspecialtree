@@ -2,12 +2,18 @@
 
 import Image from "next/image";
 import { transformLink } from "@/utils/s3Link";
+import { useRef } from "react";
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import PayPalButton from "./PaypalButton";
+import { primaryFontColor, secondaryFontColor } from "@/utils/styles";
 
 export default function OrderForm({ handleScrollToSection }) {
+  const section1Ref = useRef(null);
+  const section2Ref = useRef(null);
+  const section3Ref = useRef(null);
+
   const router = useRouter();
   const [step, setStep] = useState(1);
   const [customer, setCustomer] = useState({
@@ -149,6 +155,25 @@ export default function OrderForm({ handleScrollToSection }) {
     }
   };
 
+  function handleScrollToSection1() {
+    section1Ref.current?.scrollIntoView({
+      behavior: "smooth", // Smooth scroll effect
+      block: "start", // Align to the top of the viewport
+    });
+  }
+  function handleScrollToSection2() {
+    section2Ref.current?.scrollIntoView({
+      behavior: "smooth", // Smooth scroll effect
+      block: "start", // Align to the top of the viewport
+    });
+  }
+  function handleScrollToSection3() {
+    section3Ref.current?.scrollIntoView({
+      behavior: "smooth", // Smooth scroll effect
+      block: "start", // Align to the top of the viewport
+    });
+  }
+
   // meta events
   async function metaAddToCart() {
     await fetch("/api/meta/atc", {
@@ -168,7 +193,7 @@ export default function OrderForm({ handleScrollToSection }) {
   }
 
   async function metaCheckout() {
-    await fetch("meta/checkout", {
+    await fetch("/api/meta/checkout", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -188,7 +213,10 @@ export default function OrderForm({ handleScrollToSection }) {
 
   return (
     <div className="max-w-4xl mx-auto">
-      <h1 className="text-3xl font-extrabold mb-6 text-center text-red-600">
+      <h1
+        className="text-4xl font-extrabold mb-6 text-center drop-shadow-md"
+        style={{ color: "red" }}
+      >
         Claim Your Holiday Magic Now
       </h1>
 
@@ -198,10 +226,14 @@ export default function OrderForm({ handleScrollToSection }) {
         </p>
       ) : (
         <form onSubmit={handleSubmit} className="space-y-6">
-          {/* Step 1: Customer Details */}
-          {step === 1 && (
+          <div ref={section1Ref}></div> {/* Step 1: Customer Details */}
+          {
+            // step === 1 &&
             <fieldset className="p-6 border-2 border-gray-300 rounded-lg shadow-lg bg-white">
-              <legend className="text-2xl font-semibold text-center text-green-600 mb-4">
+              <legend
+                className="text-2xl font-semibold text-center  mb-4"
+                style={{ color: secondaryFontColor }}
+              >
                 Shipping Details
               </legend>
               {Object.keys(customer).map((field) => (
@@ -238,7 +270,7 @@ export default function OrderForm({ handleScrollToSection }) {
                 }
                 onClick={() => {
                   setStep(2);
-                  handleScrollToSection();
+                  handleScrollToSection2();
                   metaAddToCart();
                 }}
                 className="w-full py-3 bg-red-600 text-white rounded-md hover:bg-red-700 disabled:bg-gray-400"
@@ -246,60 +278,65 @@ export default function OrderForm({ handleScrollToSection }) {
                 Next: Upload Images
               </button>
             </fieldset>
-          )}
-          Step 2: Upload Images
+          }
+          {/* Step 2: Upload Images */}
+          <div ref={section2Ref}></div>
           {
             // step === 2 &&
-            <fieldset className="p-6 border-2 border-gray-300 rounded-lg shadow-lg bg-white">
-              <p className="text-lg text-gray-700 font-medium mt-2">
-                Upload up to 15 images
-              </p>
-
-              <legend className="text-2xl font-semibold text-center text-green-600 mb-4">
+            <fieldset className="p-6 border-2 border-gray-300 rounded-lg shadow-lg bg-white max-w-4xl mx-auto overflow-hidden">
+              <legend
+                className="text-2xl font-semibold text-center mb-4"
+                style={{ color: secondaryFontColor }}
+              >
                 Upload Images
               </legend>
+
+              <p className="text-lg text-gray-700 font-medium mt-2 text-center">
+                Upload up to 15 images
+              </p>
               <input
                 type="file"
                 multiple
                 disabled={images.length >= 15}
                 accept="image/*"
                 onChange={handleUpload}
-                className="mb-4 p-2 bg-white border border-gray-300 rounded-md"
+                className="mb-4 p-2 bg-white border border-gray-300 rounded-md w-full"
               />
               {uploading && (
-                <p className="text-blue-600">Uploading images... Please wait</p>
+                <p className="text-blue-600 text-center">
+                  Uploading images... Please wait
+                </p>
               )}
               {images.length > 0 && (
                 <div className="mb-4">
-                  <ul className="flex flex-wrap gap-4">
-                    {images.map((url, index) => {
-                      // console.log(url);
-                      // console.log(transformLink(url));
-                      return (
-                        <li key={index} className="relative">
-                          <Image
-                            src={transformLink(url)}
-                            alt={`Uploaded Image ${index}`}
-                            className="w-24 h-24 object-cover rounded-md"
-                            width={400}
-                            height={400}
-                            unoptimized
-                          />
-                          <button
-                            type="button"
-                            onClick={() => handleRemoveImage(index)}
-                            className="absolute top-0 right-0 bg-red-600 text-white rounded-full w-6 h-6 flex items-center justify-center"
-                          >
-                            X
-                          </button>
-                        </li>
-                      );
-                    })}
+                  <ul className="flex flex-wrap gap-4 overflow-x-auto">
+                    {images.map((url, index) => (
+                      <li
+                        key={index}
+                        className="relative w-24 h-24 rounded-md overflow-hidden"
+                      >
+                        <Image
+                          src={transformLink(url)}
+                          alt={`Uploaded Image ${index}`}
+                          className="object-cover w-full h-full"
+                          width={400}
+                          height={400}
+                          unoptimized
+                        />
+                        <button
+                          type="button"
+                          onClick={() => handleRemoveImage(index)}
+                          className="absolute top-0 right-0 bg-red-600 text-white rounded-full w-6 h-6 flex items-center justify-center"
+                        >
+                          X
+                        </button>
+                      </li>
+                    ))}
                   </ul>
                 </div>
               )}
               {images.length > 15 && (
-                <p className="text-red-600 text-sm">
+                <p className="text-red-600 text-sm text-center">
                   You have exceeded the limit of 15 images.
                 </p>
               )}
@@ -307,7 +344,7 @@ export default function OrderForm({ handleScrollToSection }) {
                 type="button"
                 onClick={() => {
                   setStep(1);
-                  handleScrollToSection();
+                  handleScrollToSection1();
                 }}
                 className="w-full py-3 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300 mb-2"
               >
@@ -319,19 +356,23 @@ export default function OrderForm({ handleScrollToSection }) {
                 disabled={images.length === 0 || images.length > 15}
                 onClick={() => {
                   setStep(3);
-                  handleScrollToSection();
+                  handleScrollToSection3();
                 }}
                 className="w-full py-3 bg-red-600 text-white rounded-md hover:bg-red-700 disabled:bg-gray-400"
               >
-                Next: Add Products
+                Next: Confirm Order
               </button>
             </fieldset>
           }
           {/* Step 3: Products */}
+          <div ref={section3Ref}></div>
           {
             // step === 3 &&
             <fieldset className="p-6 border-2 border-gray-300 rounded-lg shadow-lg bg-white">
-              <legend className="text-2xl font-semibold text-center text-green-600 mb-4">
+              <legend
+                className="text-2xl font-semibold text-center mb-4"
+                style={{ color: secondaryFontColor }}
+              >
                 Confirm Order
               </legend>
 
@@ -361,7 +402,15 @@ export default function OrderForm({ handleScrollToSection }) {
                   >
                     {/* Animated Arrow */}
                     <div className="absolute left-0 top-1/2 transform -translate-y-1/2">
-                      <div className="animate-ping bg-yellow-500 rounded-full w-4 h-4"></div>
+                      <div className="animate-ping bg-yellow-500 rounded-full w-4 h-4">
+                        <Image
+                          src="/formArrow.svg" // Change this to your image path
+                          alt="form arrow"
+                          width={80} // Adjust image size if necessary
+                          height={80}
+                          className="m-auto "
+                        />
+                      </div>
                     </div>
 
                     <input
@@ -417,7 +466,10 @@ export default function OrderForm({ handleScrollToSection }) {
                 ))}
 
                 {/* Total Amount */}
-                <div className="flex justify-between text-xl font-bold text-green-600">
+                <div
+                  className="flex justify-between text-xl font-bold "
+                  style={{ color: primaryFontColor }}
+                >
                   <span>Total Amount:</span>
                   <span>
                     $
@@ -433,7 +485,7 @@ export default function OrderForm({ handleScrollToSection }) {
                 type="button"
                 onClick={() => {
                   setStep(2);
-                  handleScrollToSection();
+                  handleScrollToSection2();
                 }}
                 className="w-full py-3 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300 mt-6 mb-2"
               >

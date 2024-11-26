@@ -28,7 +28,7 @@ export const sendEvent = async (eventName, userData, customData) => {
 
   try {
     const response = await axios.post(apiUrl, event);
-    // console.log(`${eventName} event sent successfully:`, response.data);
+    console.log(`${eventName} event sent successfully:`, response.data);
   } catch (error) {
     console.error(
       `Error sending ${eventName} event:`,
@@ -54,19 +54,19 @@ export const sendEvent = async (eventName, userData, customData) => {
 // };
 
 export const getUserData = (req) => {
-    // Extract IP address from X-Forwarded-For (ideal for proxy environments)
-    const clientIp = req.headers["x-forwarded-for"] || req.connection?.remoteAddress;
-  
-    // In case the clientIp is an array (common in some proxy setups), take the first IP
-    const client_ip_address = clientIp ? clientIp.split(",")[0].trim() : null;
-  
-    return {
-      em: hashSHA256(req.body.email), // email (hashed in SHA-256)
-      ph: hashSHA256(req.body.phone), // phone number (hashed in SHA-256)
-      client_ip_address,
-      client_user_agent: req.headers["user-agent"],
-      fbc: req.body.fbc, // "fb.1.1554763741205.IwAR2F4-dbP0l7Mn1IawQQGCINEz7PYXQvwjNwB_qa2ofrHyiLjcbCRxTDMgk",
-      fbp: req.body.fbp, // "fb.1.1596403881668.1116446470",
-    };
+  // Extract IP address from X-Forwarded-For (ideal for proxy environments)
+  const clientIp =
+    req.headers["x-forwarded-for"] || req.connection?.remoteAddress;
+
+  // In case the clientIp is an array (common in some proxy setups), take the first IP
+  const client_ip_address = clientIp ? clientIp.split(",")[0].trim() : null;
+  console.log(req.body);
+  return {
+    em: hashSHA256(req.body.email), // email (hashed in SHA-256)
+    ph: hashSHA256(req.body.phone), // phone number (hashed in SHA-256)
+    client_ip_address,
+    client_user_agent: req.headers["user-agent"],
+    fbc: req.body.fbc, // "fb.1.1554763741205.IwAR2F4-dbP0l7Mn1IawQQGCINEz7PYXQvwjNwB_qa2ofrHyiLjcbCRxTDMgk",
+    fbp: req.body.fbp, // "fb.1.1596403881668.1116446470",
   };
-  
+};

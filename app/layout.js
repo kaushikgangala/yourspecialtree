@@ -1,5 +1,6 @@
 import localFont from "next/font/local";
 import "./globals.css";
+import { Montserrat } from "next/font/google";
 
 // const geistSans = localFont({
 //   src: "./fonts/GeistVF.woff",
@@ -22,19 +23,20 @@ export const metadata = {
   },
 };
 
-const montserrat = {
-  weight: ['300', '400', '500', '700'],
-  subsets: ['latin'],
-};
+const montserrat = Montserrat({
+  weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
+  subsets: ["latin"],
+});
 
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <head>
-      
-      <link
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
           rel="stylesheet"
-          href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;700&display=swap"
         />
 
         {/* Meta Pixel Code */}
@@ -58,13 +60,16 @@ export default function RootLayout({ children }) {
           <img
             height="1"
             width="1"
-            style={{ display: 'none' }}
+            style={{ display: "none" }}
             src="https://www.facebook.com/tr?id=1513451992668350&ev=PageView&noscript=1"
             alt="Meta Pixel"
           />
         </noscript>
       </head>
-      <body className={` bg-gray-100`}>
+      <body
+        className={` bg-gray-100 ${montserrat.className}`}
+        style={{ backgroundColor: "white" }}
+      >
         {children}
       </body>
     </html>

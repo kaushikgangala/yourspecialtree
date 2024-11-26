@@ -59,15 +59,18 @@ export default function DiscountCounter() {
   const formatTime = (value) => (value < 10 ? `0${value}` : value);
 
   return (
-    <div className="bg-white text-red-600 text-center pt-2 sticky top-0 z-10 pb-2 pl-8 pr-8 rounded-lg shadow-lg w-full max-w-sm mx-auto">
+    <div
+      className="bg-white text-center pt-2 sticky top-0 z-10 pb-2 pl-8 pr-8  w-full "
+      style={{ color: "red" }}
+    >
       {hours === 0 && minutes === 0 && seconds === 0 ? (
-        <h1 id="counter1" className="text-3xl font-semibold">
+        <h1 id="counter1" className="text-xl font-semibold">
           COUPON RE-APPLIED
         </h1>
       ) : (
-        <h1 id="counter1" className="text-sm font-semibold">
+        <h1 id="counter1" className="text-sm font-medium">
           50% OFF - DISCOUNT ENDS IN:{" "}
-          <span className="text-3xl font-extrabold">
+          <span className="text-xl font-semibold">
             {formatTime(hours)}:{formatTime(minutes)}:{formatTime(seconds)}
           </span>
         </h1>

@@ -2,9 +2,15 @@
 
 import { useEffect, useState } from "react";
 
-export default function PayPalButton({email, phone, amount, onFormSubmit, metaCheckout }) {
+export default function PayPalButton({
+  email,
+  phone,
+  amount,
+  onFormSubmit,
+  metaCheckout,
+}) {
   const [clientId, setClientId] = useState(null);
-// console.log(clientId)
+  // console.log(clientId)
   useEffect(() => {
     const fetchClientId = async () => {
       const res = await fetch("/api/getclientid");
@@ -36,15 +42,18 @@ export default function PayPalButton({email, phone, amount, onFormSubmit, metaCh
             createOrder: async () => {
               const res = await fetch("/api/create_order", {
                 method: "POST",
-                headers: { "Content-Type": "application/json",  },
-                body: JSON.stringify({ intent: "capture", purchase_units: [
-                  {
-                    amount: {
-                      currency_code: "USD",
-                      value: amount,
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                  intent: "capture",
+                  purchase_units: [
+                    {
+                      amount: {
+                        currency_code: "USD",
+                        value: amount,
+                      },
                     },
-                  },
-                ], }),
+                  ],
+                }),
               });
               const data = await res.json();
               return data.id;
@@ -61,7 +70,6 @@ export default function PayPalButton({email, phone, amount, onFormSubmit, metaCh
 
               const orderDetails = await res.json();
 
-              
               metaCheckout();
               onFormSubmit();
             },
