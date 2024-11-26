@@ -227,8 +227,7 @@ export default function OrderForm({ handleScrollToSection }) {
       ) : (
         <form onSubmit={handleSubmit} className="space-y-6">
           <div ref={section1Ref}></div> {/* Step 1: Customer Details */}
-          {
-            // step === 1 &&
+          {step >= 1 && (
             <fieldset className="p-6 border-2 border-gray-300 rounded-lg shadow-lg bg-white">
               <legend
                 className="text-2xl font-semibold text-center  mb-4"
@@ -278,11 +277,10 @@ export default function OrderForm({ handleScrollToSection }) {
                 Next: Upload Images
               </button>
             </fieldset>
-          }
+          )}
           {/* Step 2: Upload Images */}
           <div ref={section2Ref}></div>
-          {
-            // step === 2 &&
+          {step >= 2 && (
             <fieldset className="p-6 border-2 border-gray-300 rounded-lg shadow-lg bg-white max-w-4xl mx-auto overflow-hidden">
               <legend
                 className="text-2xl font-semibold text-center mb-4"
@@ -363,11 +361,10 @@ export default function OrderForm({ handleScrollToSection }) {
                 Next: Confirm Order
               </button>
             </fieldset>
-          }
+          )}
           {/* Step 3: Products */}
           <div ref={section3Ref}></div>
-          {
-            // step === 3 &&
+          {step >= 3 && (
             <fieldset className="p-6 border-2 border-gray-300 rounded-lg shadow-lg bg-white">
               <legend
                 className="text-2xl font-semibold text-center mb-4"
@@ -499,7 +496,7 @@ export default function OrderForm({ handleScrollToSection }) {
                 metaCheckout={metaCheckout}
               />
             </fieldset>
-          }
+          )}
         </form>
       )}
     </div>

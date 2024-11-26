@@ -1,5 +1,7 @@
 "use client";
 
+import Footer from "@/components/Footer";
+import { primaryFontColor } from "@/utils/styles";
 import { useEffect, useState } from "react";
 
 const ThankYouPage = () => {
@@ -32,68 +34,93 @@ const ThankYouPage = () => {
     metaPurchaseEvent();
   }, []);
 
+  const currentDate = new Date();
+  const deliveryDate = new Date(currentDate);
+  deliveryDate.setDate(deliveryDate.getDate() + 6);
+
+  const formattedDeliveryDate = deliveryDate.toLocaleDateString("en-US", {
+    weekday: "long",
+    month: "long",
+    day: "numeric",
+  });
+
   return (
-    <div className="thank-you-container bg-red-50 min-h-screen flex items-center justify-center">
-      <div className="bg-white rounded-xl shadow-lg p-8 w-full max-w-3xl border-t-4 border-green-500">
-        <h1 className="text-4xl font-bold text-center text-green-600 mb-4">
-          🎄 Thank You for Your Order! 🎁
-        </h1>
-        <p className="text-lg text-center text-gray-700 mb-6">
-          Your order has been successfully placed! Here are the details:
-        </p>
-
-        <div className="order-details space-y-6">
-          {customerData && (
-            <div className="bg-green-50 p-4 rounded-lg shadow-inner">
-              <h2 className="text-2xl font-semibold text-green-700 mb-4">
-                Shipping Details
-              </h2>
-              <p className="text-lg text-gray-800">
-                <strong>Name:</strong> {customerData.name}
-              </p>
-              <p className="text-lg text-gray-800">
-                <strong>Email:</strong> {customerData.email}
-              </p>
-              <p className="text-lg text-gray-800">
-                <strong>Phone:</strong> {customerData.phone}
-              </p>
-              <p className="text-lg text-gray-800">
-                <strong>Address:</strong> {customerData.street},{" "}
-                {customerData.city}, {customerData.state},{" "}
-                {customerData.country} - {customerData.pin}
-              </p>
-            </div>
-          )}
-
-          <div className="bg-red-50 p-4 rounded-lg shadow-inner">
-            <h2 className="text-2xl font-semibold text-red-700 mb-4">
-              Products Ordered
-            </h2>
-            {productData.map((product, index) => (
-              <div
-                key={index}
-                className="product-item text-lg text-gray-800 border-b border-gray-200 pb-2 mb-2 last:border-none last:pb-0 last:mb-0"
+    <>
+      <div className="thank-you-container bg-red-50 min-h-screen flex items-center justify-center">
+        <div className="bg-white  p-8 w-full max-w-3xl ">
+          <h1
+            className="text-3xl font-extrabold text-center mb-4"
+            style={{ color: primaryFontColor }}
+          >
+            🎄 Thank You for Your Order! 🎁
+          </h1>
+          <p className="text-lg text-center text-gray-700 mb-6">
+            Your order has been successfully placed! Here are the details:
+          </p>
+          <div className="my-6">
+            <p className="text-lg font-medium">
+              Expected Delivery:
+              <span
+                className="block text-2xl font-bold"
+                style={{ color: "red" }}
               >
-                <p>
-                  <strong>Product:</strong> {product.name}
+                {formattedDeliveryDate}
+              </span>
+            </p>
+          </div>
+
+          <div className="order-details space-y-6">
+            {customerData && (
+              <div className=" p-4 rounded-lg shadow-inner">
+                <h2 className="text-2xl font-semibold  mb-4">
+                  Shipping Details
+                </h2>
+                <p className="text-lg text-gray-800">
+                  <strong>Name:</strong> {customerData.name}
                 </p>
-                <p>
-                  <strong>Price:</strong> ${product.price}
+                <p className="text-lg text-gray-800">
+                  <strong>Email:</strong> {customerData.email}
+                </p>
+                <p className="text-lg text-gray-800">
+                  <strong>Phone:</strong> {customerData.phone}
+                </p>
+                <p className="text-lg text-gray-800">
+                  <strong>Address:</strong> {customerData.street},{" "}
+                  {customerData.city}, {customerData.state},{" "}
+                  {customerData.country} - {customerData.pin}
                 </p>
               </div>
-            ))}
-            <div className="mt-4 text-xl font-bold text-red-800">
-              <p id="total-amount">
-                🎅 Total Amount: $
-                {productData
-                  .reduce((total, product) => total + product.price, 0)
-                  .toFixed(2)}
-              </p>
+            )}
+
+            <div className=" p-4 rounded-lg shadow-inner">
+              <h2 className="text-2xl font-semibold  mb-4">Products Ordered</h2>
+              {productData.map((product, index) => (
+                <div
+                  key={index}
+                  className="product-item text-lg text-gray-800 border-b border-gray-200 pb-2 mb-2 last:border-none last:pb-0 last:mb-0"
+                >
+                  <p>
+                    <strong>Product:</strong> {product.name}
+                  </p>
+                  <p>
+                    <strong>Price:</strong> ${product.price}
+                  </p>
+                </div>
+              ))}
+              <div className="mt-4 text-xl font-bold">
+                <p id="total-amount">
+                  🎅 Total Amount: $
+                  {productData
+                    .reduce((total, product) => total + product.price, 0)
+                    .toFixed(2)}
+                </p>
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
+      <Footer />
+    </>
   );
 };
 
