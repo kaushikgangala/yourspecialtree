@@ -47,7 +47,7 @@ export default function Home() {
         style={{ color: primaryFontColor }}
       >
         {/* We believe every Christmas tree deserves a unique touch. */}
-        Meet MerrySkirts
+        Meet - Merry Skirts
       </h1>
 
       <p className="text-lg text-center" style={{ color: secondaryFontColor }}>

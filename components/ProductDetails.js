@@ -79,7 +79,7 @@ const ProductDetails = ({ handleScrollToSection }) => {
           </div>
         </div>
         <h2 className="text-3xl font-extrabold text-gray-900 mb-6">
-          So why a MerrySkirt?
+          So why a Merry Skirt?
         </h2>
         {/* <ul className="list-disc list-inside space-y-4 text-gray-700 text-lg"> */}
         <p className="mb-4">

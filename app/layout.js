@@ -15,7 +15,7 @@ import { Montserrat } from "next/font/google";
 // });
 
 export const metadata = {
-  title: "Your Special Tree",
+  title: "Merry Skirts",
   description: "Made with love",
   icons: {
     icon: "/favicon.png", // Specify the path to your favicon
