@@ -40,15 +40,15 @@ export default function SwipableImageGallery({ images }) {
       <Image
         src={img}
         alt={`Thumbnail Image ${index + 1}`}
-        width={40}
-        height={40}
+        width={600}
+        height={600}
         className={`cursor-pointer w-12 h-12 rounded-md border-2 ${
           currentImage === index
             ? "border-blue-500"
             : "border-gray-400"
         } object-cover`}
         onClick={() => setCurrentImage(index)}
-        aria-label={`Switch to image ${index + 1}`}
+        // aria-label={`Switch to image ${index + 1}`}
       />
     </div>
   ))}

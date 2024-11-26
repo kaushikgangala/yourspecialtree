@@ -5,11 +5,13 @@ export async function POST(req) {
   const userData = getUserData({ body, headers: req.headers });
   const customData = {
     currency: "USD",
-    value: 40.0,
-    content_ids: ["galtag"],
+    value: body.value,
+    content_ids: ["tree_skirt"],
     content_type: "product",
-    contents: [{ id: "galtag", quantity: 1 }],
+    contents: [{ id: "tree_skirt", quantity: body.quantity }],
   };
+
+  console.log(body);
 
   await sendEvent("AddToCart", userData, customData);
 

@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { transformLink } from "@/utils/s3Link";
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
@@ -156,6 +157,8 @@ export default function OrderForm({ handleScrollToSection }) {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
+        value: products.reduce((acc, curr) => acc + curr.price, 0).toFixed(2),
+        quantity: products.length,
         email: customer.email,
         phone: customer.phone,
         fbc: sessionStorage.getItem("_fbc"),
@@ -169,6 +172,8 @@ export default function OrderForm({ handleScrollToSection }) {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
+        value: products.reduce((acc, curr) => acc + curr.price, 0).toFixed(2),
+        quantity: products.length,
         email: customer.email,
         phone: customer.phone,
         fbc: sessionStorage.getItem("_fbc"),
@@ -180,7 +185,6 @@ export default function OrderForm({ handleScrollToSection }) {
       }),
     });
   }
-
 
   return (
     <div className="max-w-4xl mx-auto">
@@ -209,7 +213,7 @@ export default function OrderForm({ handleScrollToSection }) {
                     {field.charAt(0).toUpperCase() + field.slice(1)}
                   </label>
                   <input
-                    type="text"
+                    type={field === "phone" || field === "pin" ? "tel" : "text"}
                     id={field}
                     name={field}
                     value={customer[field]}
@@ -243,9 +247,9 @@ export default function OrderForm({ handleScrollToSection }) {
               </button>
             </fieldset>
           )}
-
-          {/* Step 2: Upload Images */}
-          {step === 2 && (
+          Step 2: Upload Images
+          {
+            // step === 2 &&
             <fieldset className="p-6 border-2 border-gray-300 rounded-lg shadow-lg bg-white">
               <p className="text-lg text-gray-700 font-medium mt-2">
                 Upload up to 15 images
@@ -268,25 +272,29 @@ export default function OrderForm({ handleScrollToSection }) {
               {images.length > 0 && (
                 <div className="mb-4">
                   <ul className="flex flex-wrap gap-4">
-                    {images.map((url, index) => { 
+                    {images.map((url, index) => {
+                      // console.log(url);
+                      // console.log(transformLink(url));
                       return (
-                      <li key={index} className="relative">
-                        <img
-                          src={url}
-                          alt={`Uploaded Image ${index}`}
-                          className="w-24 h-24 object-cover rounded-md"
-                          width={400}
-                          height={400}
-                        />
-                        <button
-                          type="button"
-                          onClick={() => handleRemoveImage(index)}
-                          className="absolute top-0 right-0 bg-red-600 text-white rounded-full w-6 h-6 flex items-center justify-center"
-                        >
-                          X
-                        </button>
-                      </li>
-                    )})}
+                        <li key={index} className="relative">
+                          <Image
+                            src={transformLink(url)}
+                            alt={`Uploaded Image ${index}`}
+                            className="w-24 h-24 object-cover rounded-md"
+                            width={400}
+                            height={400}
+                            unoptimized
+                          />
+                          <button
+                            type="button"
+                            onClick={() => handleRemoveImage(index)}
+                            className="absolute top-0 right-0 bg-red-600 text-white rounded-full w-6 h-6 flex items-center justify-center"
+                          >
+                            X
+                          </button>
+                        </li>
+                      );
+                    })}
                   </ul>
                 </div>
               )}
@@ -318,10 +326,10 @@ export default function OrderForm({ handleScrollToSection }) {
                 Next: Add Products
               </button>
             </fieldset>
-          )}
-
+          }
           {/* Step 3: Products */}
-          {step === 3 && (
+          {
+            // step === 3 &&
             <fieldset className="p-6 border-2 border-gray-300 rounded-lg shadow-lg bg-white">
               <legend className="text-2xl font-semibold text-center text-green-600 mb-4">
                 Confirm Order
@@ -388,7 +396,8 @@ export default function OrderForm({ handleScrollToSection }) {
                       />
                       <div className="text-sm">
                         <h4 className="font-semibold">
-                          {orderBump.title} - ${orderBump.price}
+                          Add {orderBump.title} to your order at just - $
+                          {orderBump.price}
                         </h4>
                         <p className="text-gray-600">{orderBump.description}</p>
                       </div>
@@ -438,7 +447,7 @@ export default function OrderForm({ handleScrollToSection }) {
                 metaCheckout={metaCheckout}
               />
             </fieldset>
-          )}
+          }
         </form>
       )}
     </div>

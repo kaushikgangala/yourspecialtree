@@ -15,6 +15,8 @@ const ThankYouPage = () => {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
+          value: products.reduce((acc, curr) => acc + curr.price, 0).toFixed(2),
+        quantity: products.length,
           email: customerData.email,
           phone: customerData.phone,
           fbc: sessionStorage.getItem("_fbc"),
