@@ -60,7 +60,7 @@ export default function OrderForm({ handleScrollToSection }) {
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
               fileName: file.name,
-              folder: `orders/${customer.name}-${customer.email}`, // Unique folder for the current order
+              folder: `orders/${folderId}`, // Unique folder for the current order
             }),
           });
 
@@ -110,7 +110,7 @@ export default function OrderForm({ handleScrollToSection }) {
         body: JSON.stringify({
           customer,
           products,
-          imagesFolder: `orders/${customer.name}-${customer.email}`,
+          imagesFolder: `orders/${folderId}`,
         }),
       });
 
@@ -174,6 +174,13 @@ export default function OrderForm({ handleScrollToSection }) {
     });
   }
 
+  // unique id
+  function generateUniqueId() {
+    return "id-" + Date.now() + "-" + Math.random().toString(36).substr(2, 9);
+  }
+
+  const folderId = generateUniqueId(); // Example: id-1701077822434-9x8y2k7zq
+
   // meta events
   async function metaAddToCart() {
     await fetch("/api/meta/atc", {
@@ -228,59 +235,6 @@ export default function OrderForm({ handleScrollToSection }) {
         <form onSubmit={handleSubmit} className="space-y-6">
           <div ref={section1Ref}></div> {/* Step 1: Customer Details */}
           {step >= 1 && (
-            <fieldset className="p-6 border-2 border-gray-300 rounded-lg shadow-lg bg-white">
-              <legend
-                className="text-2xl font-semibold text-center  mb-4"
-                style={{ color: secondaryFontColor }}
-              >
-                Shipping Details
-              </legend>
-              {Object.keys(customer).map((field) => (
-                <div key={field} className="mb-4">
-                  <label
-                    htmlFor={field}
-                    className="block text-sm font-medium text-gray-700 mb-2"
-                  >
-                    {field.charAt(0).toUpperCase() + field.slice(1)}
-                  </label>
-                  <input
-                    type={field === "phone" || field === "pin" ? "tel" : "text"}
-                    id={field}
-                    name={field}
-                    value={customer[field]}
-                    onChange={handleCustomerChange}
-                    required
-                    className="w-full p-3 border border-gray-300 rounded-md"
-                  />
-                </div>
-              ))}
-              <button
-                id="form-btn-1"
-                type="button"
-                disabled={
-                  !customer.name ||
-                  !customer.email ||
-                  !customer.phone ||
-                  !customer.street ||
-                  !customer.city ||
-                  !customer.pin ||
-                  !customer.state ||
-                  !customer.country
-                }
-                onClick={() => {
-                  setStep(2);
-                  handleScrollToSection2();
-                  metaAddToCart();
-                }}
-                className="w-full py-3 bg-red-600 text-white rounded-md hover:bg-red-700 disabled:bg-gray-400"
-              >
-                Next: Upload Images
-              </button>
-            </fieldset>
-          )}
-          {/* Step 2: Upload Images */}
-          <div ref={section2Ref}></div>
-          {step >= 2 && (
             <fieldset className="p-6 border-2 border-gray-300 rounded-lg shadow-lg bg-white max-w-4xl mx-auto overflow-hidden">
               <legend
                 className="text-2xl font-semibold text-center mb-4"
@@ -291,6 +245,78 @@ export default function OrderForm({ handleScrollToSection }) {
 
               <p className="text-lg text-gray-700 font-medium mt-2 text-center">
                 Upload up to 15 images
+              </p>
+              <div className="flex flex-row gap-2 justify-center ">
+                <div className="relative w-24 h-24 rounded-md overflow-hidden">
+                  <Image
+                    src={
+                      "https://images.pexels.com/photos/2450750/pexels-photo-2450750.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+                    }
+                    alt={`Image guide 1`}
+                    className="object-cover w-full h-full"
+                    width={400}
+                    height={400}
+                    color="gray"
+                    // unoptimized
+                  />
+                  <button
+                    type="button"
+                    onClick={() => handleRemoveImage(index)}
+                    className="absolute bottom-2 right-10 bg-green-600 text-white rounded-full w-6 h-6 flex items-center justify-center"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke-width="1.5"
+                      stroke="currentColor"
+                      class="size-6"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="m4.5 12.75 6 6 9-13.5"
+                      />
+                    </svg>
+                  </button>
+                </div>
+                <div className="relative w-24 h-24 rounded-md overflow-hidden">
+                  <Image
+                    src={
+                      "https://images.pexels.com/photos/19876590/pexels-photo-19876590/free-photo-of-smiling-brunette-in-coat.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+                    }
+                    alt={`Image guide 1`}
+                    className="object-cover w-full h-full"
+                    width={400}
+                    height={400}
+                    color="gray"
+                    // unoptimized
+                  />
+                  <button
+                    type="button"
+                    onClick={() => handleRemoveImage(index)}
+                    className="absolute bottom-2 right-10 bg-green-600 text-white rounded-full w-6 h-6 flex items-center justify-center"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke-width="1.5"
+                      stroke="currentColor"
+                      class="size-6"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="m4.5 12.75 6 6 9-13.5"
+                      />
+                    </svg>
+                  </button>
+                </div>
+              </div>
+              <p className="text-md text-gray-500 font-medium mt-2 text-center mb-4">
+                ** Please make sure that the subject(s) is/are at the center of
+                the frame and away from the camera. **
               </p>
               <input
                 type="file"
@@ -338,6 +364,50 @@ export default function OrderForm({ handleScrollToSection }) {
                   You have exceeded the limit of 15 images.
                 </p>
               )}
+
+              <button
+                id="form-btn-2"
+                type="button"
+                disabled={images.length === 0 || images.length > 15}
+                onClick={() => {
+                  setStep(2);
+                  handleScrollToSection2();
+                }}
+                className="w-full py-3 bg-red-600 text-white rounded-md hover:bg-red-700 disabled:bg-gray-400"
+              >
+                Next: Shipping Details
+              </button>
+            </fieldset>
+          )}
+          {/* Step 2: Upload Images */}
+          <div ref={section2Ref}></div>
+          {step >= 2 && (
+            <fieldset className="p-6 border-2 border-gray-300 rounded-lg shadow-lg bg-white">
+              <legend
+                className="text-2xl font-semibold text-center  mb-4"
+                style={{ color: secondaryFontColor }}
+              >
+                Shipping Details
+              </legend>
+              {Object.keys(customer).map((field) => (
+                <div key={field} className="mb-4">
+                  <label
+                    htmlFor={field}
+                    className="block text-sm font-medium text-gray-700 mb-2"
+                  >
+                    {field.charAt(0).toUpperCase() + field.slice(1)}
+                  </label>
+                  <input
+                    type={field === "phone" || field === "pin" ? "tel" : "text"}
+                    id={field}
+                    name={field}
+                    value={customer[field]}
+                    onChange={handleCustomerChange}
+                    required
+                    className="w-full p-3 border border-gray-300 rounded-md"
+                  />
+                </div>
+              ))}
               <button
                 type="button"
                 onClick={() => {
@@ -346,15 +416,25 @@ export default function OrderForm({ handleScrollToSection }) {
                 }}
                 className="w-full py-3 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300 mb-2"
               >
-                Back: Customer Details
+                Back: Upload Images
               </button>
               <button
-                id="form-btn-2"
+                id="form-btn-1"
                 type="button"
-                disabled={images.length === 0 || images.length > 15}
+                disabled={
+                  !customer.name ||
+                  !customer.email ||
+                  !customer.phone ||
+                  !customer.street ||
+                  !customer.city ||
+                  !customer.pin ||
+                  !customer.state ||
+                  !customer.country
+                }
                 onClick={() => {
                   setStep(3);
                   handleScrollToSection3();
+                  metaAddToCart();
                 }}
                 className="w-full py-3 bg-red-600 text-white rounded-md hover:bg-red-700 disabled:bg-gray-400"
               >
@@ -380,17 +460,17 @@ export default function OrderForm({ handleScrollToSection }) {
                     title: "Customized Christmas Stocking",
                     price: 29.99,
                     description:
-                      "Add a personalized Christmas stocking to your order.",
+                      "Add a personalized Christmas stocking to your order. Cuff Width, 11.81 in. Cuff to heel, 17.32 in. Heel to toe,	16.54 in",
                     image:
-                      "https://printify.com/cdn-cgi/image/width=520,quality=100,format=avif/https://images.printify.com/api/catalog/66d80f895d7e08d6ce09e147",
+                      "https://s3.us-east-1.amazonaws.com/yst.images/site-assets/stocking.jpg",
                   },
                   {
                     title: "Customized Wrapping Paper",
-                    price: 9.99,
+                    price: 27.99,
                     description:
-                      "Get festive with customized wrapping paper for all your gifts.",
+                      "Get festive with customized wrapping paper for all your gifts. 30 in x 72 in",
                     image:
-                      "https://printify.com/cdn-cgi/image/width=520,quality=100,format=avif/https://images.printify.com/api/catalog/66d596c9f863229a4c0c5e46",
+                      "https://s3.us-east-1.amazonaws.com/yst.images/site-assets/wrappaper.jpg",
                   },
                 ].map((orderBump, index) => (
                   <div
@@ -486,7 +566,7 @@ export default function OrderForm({ handleScrollToSection }) {
                 }}
                 className="w-full py-3 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300 mt-6 mb-2"
               >
-                Back: Upload Images
+                Back: Shipping Details
               </button>
               <PayPalButton
                 amount={products

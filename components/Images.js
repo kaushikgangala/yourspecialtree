@@ -29,7 +29,7 @@ export default function SwipableImageGallery({ images }) {
         alt={`Product Image ${currentImage + 1}`}
         width={600}
         height={600}
-        unoptimized
+        // unoptimized
         className="w-full h-auto rounded-lg shadow-lg"
       />
 

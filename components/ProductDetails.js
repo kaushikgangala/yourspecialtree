@@ -10,9 +10,12 @@ const ProductDetails = ({ handleScrollToSection }) => {
 
   // Sample images for the carousel
   const images = [
-    "https://s3.us-east-1.amazonaws.com/yst.images/site-assets/Close-up.jpg",
-    "https://s3.us-east-1.amazonaws.com/yst.images/site-assets/Context.jpg",
-    "https://s3.us-east-1.amazonaws.com/yst.images/site-assets/Front.jpg",
+    "https://s3.us-east-1.amazonaws.com/yst.images/site-assets/pi1.jpg",
+    "https://s3.us-east-1.amazonaws.com/yst.images/site-assets/pi2.jpg",
+    "https://s3.us-east-1.amazonaws.com/yst.images/site-assets/pi3.jpg",
+    "https://s3.us-east-1.amazonaws.com/yst.images/site-assets/pi4.jpg",
+    "https://s3.us-east-1.amazonaws.com/yst.images/site-assets/pi5.jpg",
+    "https://s3.us-east-1.amazonaws.com/yst.images/site-assets/pi6.jpg",
   ];
 
   function getImage(currentImage) {
@@ -89,7 +92,7 @@ const ProductDetails = ({ handleScrollToSection }) => {
         </p>
         <p>
           <span className="font-semibold text-gray-900">
-            That’s Where A “MerrySkirts” Comes In.{" "}
+            That’s Where A “Merry Skirt” Comes In.{" "}
           </span>
           Every stitch is a reminder that this isn’t just any holiday
           decoration; it’s a personalized piece crafted with care for your
