@@ -17,6 +17,7 @@ export default function OrderForm({ handleScrollToSection }) {
   const router = useRouter();
   const [step, setStep] = useState(1);
   const [customer, setCustomer] = useState({
+    familyName: "",
     name: "",
     email: "",
     phone: "",
@@ -393,10 +394,16 @@ export default function OrderForm({ handleScrollToSection }) {
                     htmlFor={field}
                     className="block text-sm font-medium text-gray-700 mb-2"
                   >
-                    {field.charAt(0).toUpperCase() + field.slice(1)}
+                    {field != "familyName"
+                      ? field.charAt(0).toUpperCase() + field.slice(1)
+                      : "Family Name"}{" "}
+                    {field === "familyName" ? "(OPTIONAL)" : ""}{" "}
                   </label>
                   <input
                     type={field === "phone" || field === "pin" ? "tel" : "text"}
+                    placeholder={
+                      field === "familyName" ? "Williams' Family" : ""
+                    }
                     id={field}
                     name={field}
                     value={customer[field]}
