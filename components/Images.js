@@ -27,8 +27,8 @@ export default function SwipableImageGallery({ images }) {
       <Image
         src={images[currentImage]}
         alt={`Product Image ${currentImage + 1}`}
-        width={600}
-        height={600}
+        width={1000}
+        height={1000}
         // unoptimized
         className="w-full h-auto rounded-lg shadow-lg"
       />
