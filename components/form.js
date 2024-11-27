@@ -261,7 +261,6 @@ export default function OrderForm({ handleScrollToSection }) {
                   />
                   <button
                     type="button"
-                    onClick={() => handleRemoveImage(index)}
                     className="absolute bottom-2 right-10 bg-green-600 text-white rounded-full w-6 h-6 flex items-center justify-center"
                   >
                     <svg
@@ -294,7 +293,6 @@ export default function OrderForm({ handleScrollToSection }) {
                   />
                   <button
                     type="button"
-                    onClick={() => handleRemoveImage(index)}
                     className="absolute bottom-2 right-10 bg-green-600 text-white rounded-full w-6 h-6 flex items-center justify-center"
                   >
                     <svg
@@ -510,15 +508,15 @@ export default function OrderForm({ handleScrollToSection }) {
                           );
                         }
                       }}
-                      className="h-5 w-5 border-gray-300 rounded"
+                      className="h-5 w-5 flex-shrink-0 border-gray-300 rounded"
                     />
-                    <div className="flex items-center space-x-4">
+                    <div className="flex flex-col md:flex-row items-center space-x-4">
                       <Image
                         src={orderBump.image}
                         alt={orderBump.title}
                         width={400}
                         height={400}
-                        className="w-16 h-16 object-cover rounded-md"
+                        className="w-20 h-20 flex-shrink-0 object-cover rounded-md"
                       />
                       <div className="text-sm">
                         <h4 className="font-semibold">

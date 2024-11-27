@@ -42,7 +42,7 @@ export default function SwipableImageGallery({ images }) {
               alt={`Thumbnail Image ${index + 1}`}
               width={400}
               height={400}
-              unoptimized
+              // unoptimized
               className={`cursor-pointer w-12 h-12 rounded-md border-2 ${
                 currentImage === index ? "border-blue-500" : "border-gray-400"
               } object-cover`}
