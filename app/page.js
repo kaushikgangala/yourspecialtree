@@ -66,7 +66,7 @@ export default function Home() {
 
       <div className="container mx-auto p-6 mt-16">
         {/* Responsive Flex Container */}
-        <div className="flex flex-col md:flex-row justify-center gap-10">
+        <div className="flex flex-col-reverse md:flex-row justify-center gap-10">
           {/* Left Section */}
           <div className="flex-1 space-y-6  max-w-screen-sm">
             {/* Product Title */}

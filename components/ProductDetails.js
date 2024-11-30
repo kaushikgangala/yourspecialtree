@@ -38,6 +38,51 @@ const ProductDetails = ({ handleScrollToSection }) => {
       <div className="relative mb-6">
         <Images images={images} />
       </div>
+      <div className="bg-white  max-w-md mx-auto p-6 rounded-lg shadow-lg border border-red-600">
+        <h1
+          className="text-3xl font-extrabold text-center mb-4"
+          style={{ color: primaryFontColor }}
+        >
+          Limited-Time Offer!
+        </h1>
+
+        <p className="text-center  font-medium mb-4" style={{ color: "red" }}>
+          **Grab this deal while stocks last!**
+        </p>
+        <div className="flex justify-center items-center gap-2">
+          <span
+            className="line-through text-lg"
+            style={{ color: secondaryFontColor }}
+          >
+            $160
+          </span>
+          <span
+            className="text-4xl font-bold"
+            style={{ color: primaryFontColor }}
+          >
+            $<span id="amount">80</span>
+          </span>
+        </div>
+
+        <div className="mt-6">
+          <p className="text-lg font-medium">
+            Expected Delivery:
+            <span className="block text-2xl font-bold" style={{ color: "red" }}>
+              {formattedDeliveryDate}
+            </span>
+          </p>
+        </div>
+
+        <div className="mt-6 text-center">
+          <button
+            className=" text-white px-6 py-3 rounded-md shadow-lg  transition duration-300 transform hover:scale-105"
+            style={{ backgroundColor: "red" }}
+            onClick={handleScrollToSection}
+          >
+            Customize Yours Now
+          </button>
+        </div>
+      </div>
 
       {/* Product Description */}
       <section className="mt-8">
@@ -100,52 +145,6 @@ const ProductDetails = ({ handleScrollToSection }) => {
         </p>
         {/* </ul> */}
       </section>
-
-      <div className="bg-white  max-w-md mx-auto p-6 rounded-lg shadow-lg border border-red-600">
-        <h1
-          className="text-3xl font-extrabold text-center mb-4"
-          style={{ color: primaryFontColor }}
-        >
-          Limited-Time Offer!
-        </h1>
-
-        <p className="text-center  font-medium mb-4" style={{ color: "red" }}>
-          **Grab this deal while stocks last!**
-        </p>
-        <div className="flex justify-center items-center gap-2">
-          <span
-            className="line-through text-lg"
-            style={{ color: secondaryFontColor }}
-          >
-            $160
-          </span>
-          <span
-            className="text-4xl font-bold"
-            style={{ color: primaryFontColor }}
-          >
-            $<span id="amount">80</span>
-          </span>
-        </div>
-
-        <div className="mt-6">
-          <p className="text-lg font-medium">
-            Expected Delivery:
-            <span className="block text-2xl font-bold" style={{ color: "red" }}>
-              {formattedDeliveryDate}
-            </span>
-          </p>
-        </div>
-
-        <div className="mt-6 text-center">
-          <button
-            className=" text-white px-6 py-3 rounded-md shadow-lg  transition duration-300 transform hover:scale-105"
-            style={{ backgroundColor: "red" }}
-            onClick={handleScrollToSection}
-          >
-            Customize Yours Now
-          </button>
-        </div>
-      </div>
     </>
   );
 };

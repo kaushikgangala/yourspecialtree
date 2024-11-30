@@ -30,6 +30,7 @@ export default function SwipableImageGallery({ images }) {
         width={1000}
         height={1000}
         // unoptimized
+        loading="eager"
         className="w-full h-auto rounded-lg shadow-lg"
       />
 

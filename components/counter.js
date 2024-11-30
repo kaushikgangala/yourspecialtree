@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 export default function DiscountCounter() {
   // State variables for hours, minutes, and seconds
   const [hours, setHours] = useState(0);
-  const [minutes, setMinutes] = useState(29);
+  const [minutes, setMinutes] = useState(0);
   const [seconds, setSeconds] = useState(53);
 
   // Load values from localStorage or set default values
