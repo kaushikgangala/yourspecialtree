@@ -108,6 +108,7 @@ const ThankYouPage = () => {
                   </p>
                 </div>
               ))}
+
               <div className="mt-4 text-xl font-bold">
                 <p id="total-amount">
                   🎅 Total Amount: $

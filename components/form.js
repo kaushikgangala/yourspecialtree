@@ -28,7 +28,7 @@ export default function OrderForm({ handleScrollToSection }) {
     country: "",
   });
   const [products, setProducts] = useState([
-    { name: "Christmas Tree Skirt", price: 80 },
+    { name: "Christmas Tree Skirt", price: 119 },
   ]);
   const [images, setImages] = useState([]);
   const [uploading, setUploading] = useState(false);
@@ -245,7 +245,7 @@ export default function OrderForm({ handleScrollToSection }) {
               </legend>
 
               <p className="text-lg text-gray-700 font-medium mt-2 text-center">
-                Upload up to 15 images
+                Upload up to 20 images
               </p>
               <div className="flex flex-row gap-2 justify-center ">
                 <div className="relative w-24 h-24 rounded-md overflow-hidden">
@@ -320,7 +320,7 @@ export default function OrderForm({ handleScrollToSection }) {
               <input
                 type="file"
                 multiple
-                disabled={images.length >= 15}
+                disabled={images.length >= 20}
                 accept="image/*"
                 onChange={handleUpload}
                 className="mb-4 p-2 bg-white border border-gray-300 rounded-md w-full"
@@ -328,6 +328,11 @@ export default function OrderForm({ handleScrollToSection }) {
               {uploading && (
                 <p className="text-blue-600 text-center">
                   Uploading images... Please wait
+                </p>
+              )}
+              {images.length > 0 && (
+                <p className="text-red-600 text-center mb-2">
+                  {`${images.length} images uploaded`}
                 </p>
               )}
               {images.length > 0 && (
@@ -358,16 +363,16 @@ export default function OrderForm({ handleScrollToSection }) {
                   </ul>
                 </div>
               )}
-              {images.length > 15 && (
+              {images.length > 20 && (
                 <p className="text-red-600 text-sm text-center">
-                  You have exceeded the limit of 15 images.
+                  You have exceeded the limit of 20 images.
                 </p>
               )}
 
               <button
                 id="form-btn-2"
                 type="button"
-                disabled={images.length === 0 || images.length > 15}
+                disabled={images.length === 0 || images.length > 20}
                 onClick={() => {
                   setStep(2);
                   handleScrollToSection2();

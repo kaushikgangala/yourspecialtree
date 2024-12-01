@@ -10,6 +10,7 @@ const ProductDetails = ({ handleScrollToSection }) => {
 
   // Sample images for the carousel
   const images = [
+    "https://s3.us-east-1.amazonaws.com/yst.images/site-assets/pi0.jpg",
     "https://s3.us-east-1.amazonaws.com/yst.images/site-assets/pi1.jpg",
     "https://s3.us-east-1.amazonaws.com/yst.images/site-assets/pi2.jpg",
     "https://s3.us-east-1.amazonaws.com/yst.images/site-assets/pi3.jpg",
@@ -54,13 +55,13 @@ const ProductDetails = ({ handleScrollToSection }) => {
             className="line-through text-lg"
             style={{ color: secondaryFontColor }}
           >
-            $160
+            $240
           </span>
           <span
             className="text-4xl font-bold"
             style={{ color: primaryFontColor }}
           >
-            $<span id="amount">80</span>
+            $<span id="amount">119</span>
           </span>
         </div>
 
