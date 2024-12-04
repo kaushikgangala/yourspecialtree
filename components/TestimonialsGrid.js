@@ -12,7 +12,7 @@ export default function TestimonialsGrid({
         className="text-4xl font-extrabold mb-6 text-center drop-shadow-md"
         style={{ color: "red" }}
       >
-        See What Our Customer Have To Say...
+        See What Our Customers Have To Say...
       </h2>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 p-4">
         {testimonials.map((testimonial, index) => (
