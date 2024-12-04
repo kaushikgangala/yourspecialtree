@@ -28,7 +28,7 @@ export default function OrderForm({ handleScrollToSection }) {
     country: "",
   });
   const [products, setProducts] = useState([
-    { name: "Christmas Tree Skirt", price: 98 },
+    { name: "Christmas Tree Skirt", price: 89 },
   ]);
   const [images, setImages] = useState([]);
   const [uploading, setUploading] = useState(false);
