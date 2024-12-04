@@ -13,6 +13,59 @@ import ProductDetails from "@/components/ProductDetails";
 import Footer from "@/components/Footer";
 import { primaryFontColor, secondaryFontColor } from "@/utils/styles";
 
+import TestimonialsGrid from "../components/TestimonialsGrid";
+
+const testimonials = [
+  {
+    image:
+      "https://s3.us-east-1.amazonaws.com/yst.images/site-assets/review+1.png", // Replace with actual image paths
+  },
+  {
+    image:
+      "https://s3.us-east-1.amazonaws.com/yst.images/site-assets/review+2.png", // Replace with actual image paths
+  },
+  {
+    image:
+      "https://s3.us-east-1.amazonaws.com/yst.images/site-assets/review+3.png", // Replace with actual image paths
+  },
+  {
+    image:
+      "https://s3.us-east-1.amazonaws.com/yst.images/site-assets/review+4.png", // Replace with actual image paths
+  },
+  {
+    image:
+      "https://s3.us-east-1.amazonaws.com/yst.images/site-assets/review+5.png", // Replace with actual image paths
+  },
+  {
+    image:
+      "https://s3.us-east-1.amazonaws.com/yst.images/site-assets/review+6.png", // Replace with actual image paths
+  },
+  {
+    image:
+      "https://s3.us-east-1.amazonaws.com/yst.images/site-assets/review+7.png", // Replace with actual image paths
+  },
+  {
+    image:
+      "https://s3.us-east-1.amazonaws.com/yst.images/site-assets/review+8.png", // Replace with actual image paths
+  },
+  {
+    image:
+      "https://s3.us-east-1.amazonaws.com/yst.images/site-assets/review+9.png", // Replace with actual image paths
+  },
+  {
+    image:
+      "https://s3.us-east-1.amazonaws.com/yst.images/site-assets/review+10.png", // Replace with actual image paths
+  },
+  {
+    image:
+      "https://s3.us-east-1.amazonaws.com/yst.images/site-assets/review+11.png", // Replace with actual image paths
+  },
+  {
+    image:
+      "https://s3.us-east-1.amazonaws.com/yst.images/site-assets/review+12.png", // Replace with actual image paths
+  },
+];
+
 export default function Home() {
   const sectionRef = useRef(null);
   const handleScrollToSection = () => {
@@ -79,6 +132,10 @@ export default function Home() {
           </div>
         </div>
       </div>
+      <TestimonialsGrid
+        testimonials={testimonials}
+        handleScrollToSection={handleScrollToSection}
+      />
 
       <Footer />
     </>
