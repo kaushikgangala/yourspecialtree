@@ -156,6 +156,16 @@ export default function OrderForm({ handleScrollToSection }) {
     }
   };
 
+  async function storeShippingDetailsToDB() {
+    await fetch("/api/orders", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        customer,
+      }),
+    });
+  }
+
   function handleScrollToSection1() {
     section1Ref.current?.scrollIntoView({
       behavior: "smooth", // Smooth scroll effect
@@ -444,6 +454,7 @@ export default function OrderForm({ handleScrollToSection }) {
                 onClick={() => {
                   setStep(3);
                   handleScrollToSection3();
+                  storeShippingDetailsToDB();
                   metaAddToCart();
                 }}
                 className="w-full py-3 bg-red-600 text-white rounded-md hover:bg-red-700 disabled:bg-gray-400"
